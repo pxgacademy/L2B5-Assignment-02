@@ -7,7 +7,7 @@ CREATE TABLE rangers (
 
 
 -- 2️⃣ species
-CREATE TYPE conservation_status_enum AS ENUM ('Endangered', 'Vulnerable');
+CREATE TYPE conservation_status_enum AS ENUM ('Endangered', 'Vulnerable', 'Historic');
 
 CREATE TABLE species (
     species_id SERIAL PRIMARY KEY NOT NULL,
@@ -86,6 +86,15 @@ SELECT  species.common_name, sightings.sighting_time, rangers.name
 FROM sightings JOIN species ON sightings.species_id = species.species_id
 JOIN rangers ON sightings.ranger_id = rangers.ranger_id
 ORDER BY sightings.sighting_time DESC LIMIT 2;
+
+
+-- 7️⃣ Update all species discovered before year 1800 to have status 'Historic'.
+UPDATE species SET conservation_status = 'Historic' WHERE discovery_date < '1800-01-01';
+
+
+
+
+
 
 
 SELECT * FROM rangers;
