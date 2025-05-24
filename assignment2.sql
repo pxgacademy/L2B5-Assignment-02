@@ -46,10 +46,12 @@ VALUES
 -- insert values to SIGHTINGS
 INSERT INTO sightings(species_id, ranger_id, location, sighting_time, notes)
 VALUES 
-(1, 1, 'Peak Ridge', '4-05-10 07:45:00', 'Camera trap image captured'),
-(2, 2, 'Bankwood Area', '4-05-12 16:20:00', 'Juvenile seen'),
-(3, 3, 'Bamboo Grove East', '024-05-15 09:10:00', 'Feeding observed'),
-(1, 2, 'Snowfall Pass', '4-05-18 18:30:00', NULL);
+(1, 1, 'Peak Ridge', '2024-05-10 07:45:00', 'Camera trap image captured'),
+(2, 2, 'Bankwood Area', '2024-05-12 16:20:00', 'Juvenile seen'),
+(3, 3, 'Bamboo Grove East', '2024-05-15 09:10:00', 'Feeding observed'),
+(1, 2, 'Snowfall Pass', '2024-05-18 18:30:00', NULL);
+
+
 
 /*
 1️⃣ Register a new ranger with provided data with
@@ -58,6 +60,8 @@ region = 'Coastal Plains'
 */
 INSERT INTO rangers(name, region) VALUES ('Derek Fox', 'Coastal Plains');
 
-SELECT * FROM rangers;
-SELECT * FROM species;
-SELECT * FROM sightings;
+
+-- 2️⃣ Count unique species ever sighted.
+SELECT COUNT(DISTINCT species_id) AS unique_species_sighted FROM sightings;
+
+
