@@ -35,3 +35,11 @@ VALUES
 ('Bob White', 'River Delta'),
 ('Carol King', 'Mountain Range');
 
+-- insert values to SPECIES
+INSERT INTO species(common_name, scientific_name, discovery_date, conservation_status)
+VALUES 
+('Snow Leopard', 'Panthera uncia', '1775-01-01', 'Endangered'),
+('Bengal Tiger', 'Panthera tigris tigris', '1758-01-01', 'Endangered'),
+('Red Panda',  'Ailurus fulgens', '1825-01-01', 'Vulnerable'),
+('Asiatic Elephant', 'Elephas maximus indicus', '1758-01-01', 'Endangered');
+
