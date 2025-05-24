@@ -65,3 +65,7 @@ INSERT INTO rangers(name, region) VALUES ('Derek Fox', 'Coastal Plains');
 SELECT COUNT(DISTINCT species_id) AS unique_species_sighted FROM sightings;
 
 
+-- 3️⃣ Find all sightings where the location includes "Pass".
+SELECT * FROM sightings WHERE "location" ILIKE '%Pass%';
+
+
