@@ -76,3 +76,8 @@ ON rangers.ranger_id = sightings.ranger_id
 GROUP BY rangers.name ORDER BY rangers.name;
 
 
+-- 5️⃣ List species that have never been sighted.
+SELECT species.common_name FROM species LEFT JOIN sightings
+ON species.species_id = sightings.species_id WHERE sightings.sighting_id IS NULL;
+
+
