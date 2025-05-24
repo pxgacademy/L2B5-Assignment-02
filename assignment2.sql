@@ -43,3 +43,11 @@ VALUES
 ('Red Panda',  'Ailurus fulgens', '1825-01-01', 'Vulnerable'),
 ('Asiatic Elephant', 'Elephas maximus indicus', '1758-01-01', 'Endangered');
 
+-- insert values to SIGHTINGS
+INSERT INTO sightings(species_id, ranger_id, location, sighting_time, notes)
+VALUES 
+(1, 1, 'Peak Ridge', '4-05-10 07:45:00', 'Camera trap image captured'),
+(2, 2, 'Bankwood Area', '4-05-12 16:20:00', 'Juvenile seen'),
+(3, 3, 'Bamboo Grove East', '024-05-15 09:10:00', 'Feeding observed'),
+(1, 2, 'Snowfall Pass', '4-05-18 18:30:00', NULL);
+
