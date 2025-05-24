@@ -98,6 +98,10 @@ WHEN EXTRACT(HOUR FROM sighting_time) < 12 THEN 'Morning'
 WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
 ELSE 'Evening' END AS time_of_day FROM sightings;
 
+-- 9️⃣ Delete rangers who have never sighted any species
+DELETE FROM rangers WHERE ranger_id NOT IN (
+    SELECT DISTINCT ranger_id FROM sightings
+);
 
 
 SELECT * FROM rangers;
