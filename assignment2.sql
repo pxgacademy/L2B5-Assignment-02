@@ -51,3 +51,13 @@ VALUES
 (3, 3, 'Bamboo Grove East', '024-05-15 09:10:00', 'Feeding observed'),
 (1, 2, 'Snowfall Pass', '4-05-18 18:30:00', NULL);
 
+/*
+1️⃣ Register a new ranger with provided data with
+name = 'Derek Fox' 
+region = 'Coastal Plains'
+*/
+INSERT INTO rangers(name, region) VALUES ('Derek Fox', 'Coastal Plains');
+
+SELECT * FROM rangers;
+SELECT * FROM species;
+SELECT * FROM sightings;
