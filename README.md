@@ -152,6 +152,70 @@ This query returns only the rows where the age is 18.
 
 The `WHERE` clause in a `SELECT` statement is used to **filter the data** and return only the rows that match a given condition. It helps in retrieving **specific and meaningful results** from large datasets, making queries more useful and efficient.
 
+## 6. What are the LIMIT and OFFSET clauses used for?
+In SQL, especially in PostgreSQL, the **`LIMIT`** and **`OFFSET`** clauses are used with the `SELECT` statement to **control how many rows are returned** and **from which row the result starts**. These clauses are helpful when working with large datasets, allowing us to fetch only a part of the data at a time.
+
+
+### **1. LIMIT Clause**
+
+The `LIMIT` clause is used to **restrict the number of rows** returned by a query.
+
+#### **Purpose**:
+
+To return **only a specific number of rows**, instead of all rows from a table.
+
+#### **Example**:
+
+```sql
+SELECT * FROM students
+LIMIT 5;
+```
+
+This query will return **only the first 5 rows** from the `students` table.
+
+
+### **2. OFFSET Clause**
+
+The `OFFSET` clause is used to **skip a specific number of rows** before starting to return the result.
+
+#### **Purpose**:
+
+To **skip rows** and start displaying results from a certain position.
+
+#### **Example**:
+
+```sql
+SELECT * FROM students
+OFFSET 5;
+```
+
+This query skips the **first 5 rows** and returns the rest.
+
+
+### **Using LIMIT and OFFSET Together**
+
+The `LIMIT` and `OFFSET` clauses are often used **together for pagination** (breaking data into smaller pages).
+
+#### **Example**:
+
+```sql
+SELECT * FROM students
+LIMIT 5 OFFSET 10;
+```
+
+This means:
+
+* Skip the first **10 rows**
+* Then return the **next 5 rows**
+
+This is commonly used in applications to show data page by page (e.g., 10 students per page).
+
+
+### **Conclusion**
+
+* `LIMIT` is used to **control how many rows** you want to get.
+* `OFFSET` is used to **skip rows** before starting to return the result.
+  Together, they help in managing large amounts of data efficiently, especially for **pagination** in web applications.
 
 
 
@@ -316,3 +380,70 @@ WHERE age = 18;
 ### **উপসংহার**
 
 `SELECT` statement-এ `WHERE` clause-টি **ডেটা ফিল্টার** করতে এবং শুধুমাত্র সেই সারিগুলি return করতে ব্যবহৃত হয় যা একটি নির্দিষ্ট শর্তের সাথে মেলে। এটি বৃহৎ ডেটাসেট থেকে **নির্দিষ্ট এবং অর্থপূর্ণ ফলাফল** পুনরুদ্ধার করতে সাহায্য করে, কোয়েরিগুলিকে আরও কার্যকর এবং দক্ষ করে তোলে।
+
+
+## 6. What are the LIMIT and OFFSET clauses used for?
+SQL-এ, বিশেষ করে PostgreSQL-এ, **`LIMIT`** এবং **`OFFSET`** clauses গুলো `SELECT` statement এর সাথে ব্যবহার করা হয় **কতগুলি row return করতে হবে** এবং **কোন row থেকে ফলাফল শুরু হবে** তা নিয়ন্ত্রণ করার জন্য। এই ধারাগুলি বৃহৎ ডেটাসেটগুলির সাথে কাজ করার সময় সহায়ক, যা আমাদের একবারে কেবলমাত্র ডেটার একটি অংশ আনতে দেয়।
+
+
+### **1. LIMIT Clause**
+
+`LIMIT` ধারাটি একটি কোয়েরি দ্বারা ফেরত আসা **সারির সংখ্যা সীমাবদ্ধ** করতে ব্যবহৃত হয়।
+
+#### **Purpose**:
+
+একটি টেবিল থেকে সমস্ত সারি না দিয়ে **শুধুমাত্র একটি নির্দিষ্ট সংখ্যক সারি** return করা।
+
+#### **উদাহরণ**:
+
+```sql
+SELECT * FROM students
+LIMIT 5;
+```
+
+এই কোয়েরি `students` টেবিল থেকে **শুধুমাত্র প্রথম 5টি row** return করবে।
+
+
+### **2. OFFSET Clause**
+
+`OFFSET` Clause-টি **নির্দিষ্ট সংখ্যক সারি এড়িয়ে** ফলাফল return করতে ব্যবহার করা হয়।
+
+#### **Purpose**:
+
+**skip rows** এবং একটি নির্দিষ্ট অবস্থান থেকে ফলাফল প্রদর্শন শুরু করা।
+
+#### **উদাহরণ**:
+
+```sql
+SELECT * FROM students
+OFFSET 5;
+```
+
+এই কোয়েরি **প্রথম 5টি সারি** এড়িয়ে যায় এবং বাকিগুলি return করে।
+
+
+### **LIMIT এবং OFFSET একসাথে ব্যবহার করা**
+
+`LIMIT` এবং `OFFSET` clauses গুলি প্রায়শই **একসাথে pagination করার** (ডেটা ছোট পৃষ্ঠায় ভাঙার) জন্য ব্যবহৃত হয়।
+
+#### **উদাহরণ**:
+
+```sql
+SELECT * FROM students
+LIMIT 5 OFFSET 10;
+```
+
+এর অর্থ হল:
+
+* Skip the first **10 rows**
+* Then return the **next 5 rows**
+
+এটি সাধারণত অ্যাপ্লিকেশনগুলিতে পৃষ্ঠা অনুসারে ডেটা দেখানোর জন্য ব্যবহৃত হয় (যেমন, প্রতি পৃষ্ঠায় ১০ জন শিক্ষার্থী)।
+
+
+### **উপসংহার**
+
+* আপনি কতগুলি rows পেতে চান তা নিয়ন্ত্রণ করতে `LIMIT` ব্যবহার করা হয়।
+* ফলাফল ফেরত দেওয়ার আগে rows এড়িয়ে যেতে `OFFSET` ব্যবহার করা হয়।
+
+একত্রে, তারা প্রচুর পরিমাণে ডেটা দক্ষতার সাথে করতে সাহায্য করে, বিশেষ করে ওয়েব অ্যাপ্লিকেশনগুলিতে **pagination** এর জন্য।
