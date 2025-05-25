@@ -52,10 +52,53 @@ Here, `student_id` in `enrollments` is a foreign key that references the `studen
 * **Foreign Key** = references a primary key in another table to link data between tables.
 
 
+## 4. What is the difference between the VARCHAR and CHAR data types?
+In PostgreSQL, both `VARCHAR` and `CHAR` are data types used to store text or character strings. However, there are some important differences between them in how they store and manage the data.
+
+#### **1. Length and Storage**
+
+* `CHAR(n)` is a **fixed-length** data type. This means it always stores exactly `n` characters. If the input is shorter than `n`, PostgreSQL will add extra **spaces** at the end to make it `n` characters long.
+* `VARCHAR(n)` is a **variable-length** data type. It stores only the characters you give it, up to a maximum of `n` characters. It does **not** add extra spaces.
+
+#### **2. Usage**
+
+* `CHAR` is usually used when the length of the data is always the same. For example, a country code like “US” or “IN” could be stored in `CHAR(2)` because it always has 2 characters.
+* `VARCHAR` is used when the length of the data can be different. For example, a person’s name can be short like “Ali” or long like “Alexander”, so `VARCHAR(50)` would be better.
+
+#### **3. Example**
+
+```sql
+-- Using CHAR(5)
+CREATE TABLE test_char (
+    code CHAR(5)
+);
+
+INSERT INTO test_char (code) VALUES ('AB');
+-- The value is stored as 'AB   ' (with 3 extra spaces)
+
+-- Using VARCHAR(5)
+CREATE TABLE test_varchar (
+    code VARCHAR(5)
+);
+
+INSERT INTO test_varchar (code) VALUES ('AB');
+-- The value is stored as 'AB' (no extra spaces)
+```
+
+#### **4. Performance**
+
+In earlier systems, `CHAR` and `VARCHAR` had performance differences, but in modern PostgreSQL, there is **almost no difference** in speed. However, `VARCHAR` is generally preferred because it is more flexible and uses space more efficiently.
+
+---
+
+### **Conclusion**
+
+The main difference between `VARCHAR` and `CHAR` is that `CHAR` always stores a fixed number of characters by adding spaces, while `VARCHAR` stores only the characters you enter. In most cases, `VARCHAR` is a better choice for text data because it is more flexible and does not waste space.
 
 
 ---
 ---
+
 
 # Answer in Bengali
 
@@ -109,3 +152,47 @@ CREATE TABLE enrollments (
 ### সারাংশ:
 * **Primary Key:** নিজস্ব টেবিলের মধ্যে একটি সারিকে অনন্যভাবে চিহ্নিত করে।
 * **Foreign Key:** টেবিলের মধ্যে ডেটা লিঙ্ক করার জন্য অন্য টেবিলের একটি প্রাথমিক কী উল্লেখ করে।
+
+## 4. What is the difference between the VARCHAR and CHAR data types?
+PostgreSQL-এ, `VARCHAR` এবং `CHAR` উভয়ই text বা character strings সংরক্ষণের জন্য ব্যবহৃত ডেটা টাইপ। তবে, ডেটা কীভাবে সংরক্ষণ এবং পরিচালনা করে তার মধ্যে কিছু গুরুত্বপূর্ণ পার্থক্য রয়েছে।
+
+#### **1. Length and Storage**
+
+* `CHAR(n)` হল একটি **fixed-length** ডেটা টাইপ। এর অর্থ হল এটি সর্বদা ঠিক `n` অক্ষর সংরক্ষণ করে। যদি ইনপুট `n` এর চেয়ে ছোট হয়, তাহলে PostgreSQL শেষে অতিরিক্ত **spaces** যোগ করবে যাতে এটি `n` অক্ষর দীর্ঘ হয়।
+
+* `VARCHAR(n)` হল একটি **variable-length** ডেটা টাইপ। এটি কেবলমাত্র আপনার দেওয়া অক্ষরগুলি সংরক্ষণ করে, সর্বাধিক `n` অক্ষর পর্যন্ত। এটি অতিরিক্ত স্পেস যোগ করে **না**।
+
+#### **2. ব্যবহার**
+
+* `CHAR` সাধারণত তখন ব্যবহৃত হয় যখন ডেটার দৈর্ঘ্য সর্বদা একই থাকে। উদাহরণস্বরূপ, "US" বা "IN" এর মতো একটি দেশের কোড `CHAR(2)` তে সংরক্ষণ করা যেতে পারে কারণ এতে সর্বদা 2টি অক্ষর থাকে।
+* `VARCHAR` ব্যবহার করা হয় যখন ডেটার দৈর্ঘ্য ভিন্ন হতে পারে। উদাহরণস্বরূপ, একজন ব্যক্তির নাম "Ali" এর মতো ছোট বা "Alexander" এর মতো লম্বা হতে পারে, তাই `VARCHAR(50)` ভালো হবে।
+
+#### **3. উদাহরণ**
+
+```sql
+-- Using CHAR(5)
+CREATE TABLE test_char (
+    code CHAR(5)
+);
+
+INSERT INTO test_char (code) VALUES ('AB');
+-- The value is stored as 'AB   ' (with 3 extra spaces)
+
+-- Using VARCHAR(5)
+CREATE TABLE test_varchar (
+    code VARCHAR(5)
+);
+
+INSERT INTO test_varchar (code) VALUES ('AB');
+-- The value is stored as 'AB' (no extra spaces)
+```
+
+#### **4. কর্মক্ষমতা**
+
+পূর্ববর্তী সিস্টেমগুলিতে, `CHAR` এবং `VARCHAR` এর কর্মক্ষমতার পার্থক্য ছিল, কিন্তু আধুনিক PostgreSQL এ, গতিতে **প্রায় কোনও পার্থক্য** নেই। তবে, `VARCHAR` সাধারণত পছন্দ করা হয় কারণ এটি আরও নমনীয় এবং স্থান আরও দক্ষতার সাথে ব্যবহার করে।
+
+---
+
+### **উপসংহার**
+
+`VARCHAR` এবং `CHAR` এর মধ্যে প্রধান পার্থক্য হল যে `CHAR` সর্বদা স্থান যোগ করে একটি নির্দিষ্ট সংখ্যক অক্ষর সংরক্ষণ করে, যখন `VARCHAR` শুধুমাত্র আপনার প্রবেশ করা অক্ষর সংরক্ষণ করে। বেশিরভাগ ক্ষেত্রে, `VARCHAR` টেক্সট ডেটার জন্য একটি ভাল পছন্দ কারণ এটি আরও নমনীয় এবং স্থান নষ্ট করে না।
