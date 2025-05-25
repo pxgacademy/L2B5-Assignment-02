@@ -282,11 +282,221 @@ This query increases the age of all students who are younger than 20 by 1.
 * You can use subqueries and conditions in the `SET` or `WHERE` clauses.
 * Use transactions (`BEGIN`, `COMMIT`, `ROLLBACK`) for large or critical updates to prevent accidental data loss.
 
-
 ### **Conclusion**
 
 The `UPDATE` statement is used to **modify existing records** in a table. By using the `SET` clause to assign new values and the `WHERE` clause to specify which rows to update, you can efficiently and safely change data in a PostgreSQL database.
 
+
+## 8. What is the significance of the JOIN operation, and how does it work in PostgreSQL?
+In PostgreSQL, the `JOIN` operation is used to **combine data from two or more tables** based on a related column between them. It plays a very important role in **relational databases**, where data is often split into multiple tables to reduce duplication and improve organization. The `JOIN` operation helps in bringing this related data together in a meaningful way.
+
+### **Significance of JOIN**
+
+* The main purpose of `JOIN` is to **connect related data** stored in different tables.
+* It allows you to perform **queries across multiple tables**.
+* Without `JOIN`, we would not be able to take full advantage of the **relational** nature of a database.
+* It improves **data reusability**, **modularity**, and **reduces redundancy**.
+
+### **How JOIN works**
+
+The `JOIN` operation works by **matching rows** from one table with rows in another table based on a **common column**, usually a **primary key** in one table and a **foreign key** in another.
+
+### **Types of JOIN in PostgreSQL**
+
+#### 1. **INNER JOIN**
+
+* Returns only the rows that have matching values in both tables.
+
+```sql
+SELECT students.name, enrollments.course
+FROM students
+INNER JOIN enrollments
+ON students.id = enrollments.student_id;
+```
+
+✅ Only students who have enrollments will appear.
+
+#### 2. **LEFT JOIN (or LEFT OUTER JOIN)**
+
+* Returns **all rows from the left table**, and matching rows from the right table. If there's no match, it returns NULL for right table columns.
+
+```sql
+SELECT students.name, enrollments.course
+FROM students
+LEFT JOIN enrollments
+ON students.id = enrollments.student_id;
+```
+
+✅ Shows all students, even those without any enrollment.
+
+#### 3. **RIGHT JOIN**
+
+* Opposite of LEFT JOIN. Returns all rows from the right table and matched rows from the left table.
+
+#### 4. **FULL JOIN (or FULL OUTER JOIN)**
+
+* Returns all rows when there is a match in one of the tables. If there is no match, NULLs are returned for the missing side.
+
+### **Example Tables**
+
+**students table:**
+
+| id | name  |
+| -- | ----- |
+| 1  | Alice |
+| 2  | Bob   |
+
+**enrollments table:**
+
+| id | student\_id | course |
+| -- | ----------- | ------ |
+| 1  | 1           | Math   |
+
+Using `JOIN`, you can connect students with their courses using `students.id = enrollments.student_id`.
+
+### **Conclusion**
+
+The `JOIN` operation in PostgreSQL is a powerful feature that allows you to **combine and query related data** from multiple tables. It is essential for working with **relational data structures**, making your database more organized, efficient, and flexible.
+
+
+## 9. Explain the GROUP BY clause and its role in aggregation operations.
+In SQL, the `GROUP BY` clause is used in combination with **aggregate functions** like `COUNT()`, `SUM()`, `AVG()`, `MAX()`, and `MIN()` to **group rows that have the same values** in specified columns. The purpose of `GROUP BY` is to **summarize or analyze data** by categories.
+
+### **Role of GROUP BY in Aggregation**
+
+The `GROUP BY` clause organizes data into groups based on one or more columns, and then you can apply **aggregate functions** to each group separately.
+
+Without `GROUP BY`, aggregate functions work on the **entire table**. But with `GROUP BY`, they work on **each group of data**.
+
+### **Syntax of GROUP BY**:
+
+```sql
+SELECT column_name, aggregate_function(column_name)
+FROM table_name
+GROUP BY column_name;
+```
+
+### **Example:**
+
+Suppose you have a table called `sales`:
+
+| id | product | amount |
+| -- | ------- | ------ |
+| 1  | Apple   | 100    |
+| 2  | Banana  | 150    |
+| 3  | Apple   | 200    |
+| 4  | Banana  | 100    |
+| 5  | Orange  | 250    |
+
+If you want to find the **total amount of sales for each product**, you can use:
+
+```sql
+SELECT product, SUM(amount)
+FROM sales
+GROUP BY product;
+```
+
+**Result:**
+
+| product | sum |
+| ------- | --- |
+| Apple   | 300 |
+| Banana  | 250 |
+| Orange  | 250 |
+
+Here, the `GROUP BY` clause groups the rows by product, and the `SUM(amount)` function adds up the sales for each product group.
+
+### **Important Notes:**
+
+* Every column in the `SELECT` statement that is **not inside an aggregate function** must be listed in the `GROUP BY` clause.
+* `GROUP BY` is often used in reporting and data analysis to get **summaries** of data.
+* You can also use `GROUP BY` with `HAVING` to filter groups based on aggregated values.
+
+### **Conclusion**
+
+The `GROUP BY` clause is used to **group rows** that have the same values in one or more columns and allows you to **apply aggregate functions** to each group. It helps in creating **summary reports** and is an important part of data analysis in SQL.
+
+
+## 10. How can you calculate aggregate functions like COUNT(), SUM(), and AVG() in PostgreSQL?
+In PostgreSQL, **aggregate functions** are used to perform calculations on a set of rows and return a **single result**. These functions are very useful for **summarizing data**, such as finding totals, averages, or the number of records.
+
+The most commonly used aggregate functions are:
+
+* `COUNT()` – Counts the number of rows.
+* `SUM()` – Calculates the total of numeric values.
+* `AVG()` – Finds the average (mean) of numeric values.
+
+### **1. COUNT() – Count the number of rows**
+
+The `COUNT()` function is used to find **how many rows** exist in a table or match a condition.
+
+**Example:**
+
+```sql
+SELECT COUNT(*) FROM students;
+```
+
+🔹 Returns the total number of students.
+
+You can also use it with a condition:
+
+```sql
+SELECT COUNT(*) FROM students WHERE age > 18;
+```
+🔹 Counts how many students are older than 18.
+
+### **2. SUM() – Add numeric values**
+
+The `SUM()` function adds together all values in a column.
+
+**Example:**
+
+```sql
+SELECT SUM(marks) FROM students;
+```
+
+🔹 Returns the total of all marks from the `students` table.
+
+You can also use it with `GROUP BY` to get totals for each group:
+
+```sql
+SELECT class, SUM(marks)
+FROM students
+GROUP BY class;
+```
+🔹 Returns the total marks for each class.
+
+### **3. AVG() – Calculate the average value**
+
+The `AVG()` function returns the **average** of a set of numbers.
+
+**Example:**
+
+```sql
+SELECT AVG(marks) FROM students;
+```
+
+🔹 Returns the average marks of all students.
+
+You can use it with `GROUP BY` to get averages by category:
+
+```sql
+SELECT class, AVG(marks)
+FROM students
+GROUP BY class;
+```
+
+🔹 Returns average marks for each class.
+
+### **Conclusion**
+
+In PostgreSQL:
+
+* `COUNT()` is used to count rows,
+* `SUM()` adds up values,
+* `AVG()` finds the average of values.
+
+These functions are often used with the `GROUP BY` clause to get meaningful summaries of data, making them very important tools for data analysis and reporting.
 
 
 ---
@@ -585,3 +795,218 @@ WHERE age < 20;
 
 ### **উপসংহার**
 `UPDATE` স্টেটমেন্টটি একটি টেবিলে **বিদ্যমান রেকর্ড পরিবর্তন** করতে ব্যবহৃত হয়। নতুন মান নির্ধারণের জন্য `SET` ধারা এবং কোন সারি আপডেট করতে হবে তা নির্দিষ্ট করার জন্য `WHERE` ধারা ব্যবহার করে, আপনি একটি PostgreSQL ডাটাবেসে দক্ষতার সাথে এবং নিরাপদে ডেটা পরিবর্তন করতে পারেন।
+
+
+## 8. What is the significance of the JOIN operation, and how does it work in PostgreSQL?
+PostgreSQL-এ, `JOIN` অপারেশনটি **দুই বা ততোধিক টেবিল থেকে ডেটা একত্রিত করতে** ব্যবহৃত হয়** তাদের মধ্যে সম্পর্কিত কলামের উপর ভিত্তি করে। এটি **রিলেশনাল ডাটাবেস**-তে অত্যন্ত গুরুত্বপূর্ণ ভূমিকা পালন করে, যেখানে ডেটা প্রায়শই একাধিক টেবিলে বিভক্ত করা হয় যাতে ডুপ্লিকেশন কমানো যায় এবং সংগঠন উন্নত করা যায়। `JOIN` অপারেশনটি এই সম্পর্কিত ডেটাকে অর্থপূর্ণভাবে একত্রিত করতে সাহায্য করে।
+
+### **Significance of JOIN**
+
+* The main purpose of `JOIN` is to **connect related data** stored in different tables.
+* It allows you to perform **queries across multiple tables**.
+* Without `JOIN`, we would not be able to take full advantage of the **relational** nature of a database.
+* It improves **data reusability**, **modularity**, and **reduces redundancy**.
+
+### **How JOIN works**
+
+4,328 / 5,000
+`JOIN` অপারেশনটি একটি সাধারণ কলামের উপর ভিত্তি করে একটি টেবিলের সারি অন্য টেবিলের সারিগুলির সাথে মেলানোর মাধ্যমে কাজ করে, সাধারণত একটি টেবিলের একটি **primary key** এবং অন্যটিতে একটি **বিদেশী কী**।
+
+### **Types of JOIN in PostgreSQL**
+
+#### 1. **INNER JOIN**
+
+* শুধুমাত্র সেই rows গুলি return করে যেগুলির মান উভয় টেবিলে মিলে যায়।
+```sql
+SELECT students.name, enrollments.course
+FROM students
+INNER JOIN enrollments
+ON students.id = enrollments.student_id;
+```
+
+✅ শুধুমাত্র তালিকাভুক্ত শিক্ষার্থীদেরই দেখানো হবে।
+
+#### 2. **LEFT JOIN (or LEFT OUTER JOIN)**
+* **বাম টেবিল থেকে সমস্ত সারি** এবং ডান টেবিল থেকে সারি মিলে গেলে return করে। যদি কোনও মিল না থাকে, তবে এটি ডান টেবিল কলামের জন্য NULL return করে।
+
+```sql
+SELECT students.name, enrollments.course
+FROM students
+LEFT JOIN enrollments
+ON students.id = enrollments.student_id;
+```
+
+✅ সকল শিক্ষার্থীকে দেখায়, এমনকি যাদের নাম নথিভুক্ত নেই।
+
+#### 3. **RIGHT JOIN**
+* LEFT JOIN এর বিপরীতে। ডান টেবিল থেকে সমস্ত সারি এবং বাম টেবিল থেকে সারি মিলেছে।
+
+#### 4. **FULL JOIN (or FULL OUTER JOIN)**
+* যখন কোনও টেবিলে মিল থাকে তখন সমস্ত সারি ফেরত দেয়। যদি কোনও মিল না থাকে, তাহলে অনুপস্থিত দিকের জন্য NULL ফেরত দেওয়া হয়।
+
+### **Example Tables**
+
+**students table:**
+
+| id | name  |
+| -- | ----- |
+| 1  | Alice |
+| 2  | Bob   |
+
+**enrollments table:**
+
+| id | student\_id | course |
+| -- | ----------- | ------ |
+| 1  | 1           | Math   |
+
+
+`JOIN` ব্যবহার করে, আপনি `students.id = enrollments.student_id` ব্যবহার করে শিক্ষার্থীদের তাদের কোর্সের সাথে সংযুক্ত করতে পারেন।
+
+### **উপসংহার**
+
+PostgreSQL-এ `JOIN` অপারেশনটি একটি শক্তিশালী বৈশিষ্ট্য যা আপনাকে একাধিক টেবিল থেকে **সম্পর্কিত ডেটা একত্রিত এবং অনুসন্ধান** করতে দেয়। এটি **সম্পর্কিত ডেটা স্ট্রাকচার** এর সাথে কাজ করার জন্য অপরিহার্য, যা আপনার ডাটাবেসকে আরও সুসংগঠিত, দক্ষ এবং নমনীয় করে তোলে।
+
+## 9. Explain the GROUP BY clause and its role in aggregation operations.
+SQL-এ, `GROUP BY` clause টি **aggregate functions** যেমন `COUNT()`, `SUM()`, `AVG()`, `MAX()`, এবং `MIN()` এর সাথে একত্রে ব্যবহৃত হয় যাতে নির্দিষ্ট কলামে **একই মান সম্পন্ন সারিগুলিকে** গ্রুপ করা যায়। `GROUP BY` এর উদ্দেশ্য হল বিভাগ অনুসারে **ডেটা সারসংক্ষেপ বা বিশ্লেষণ** করা।
+
+### **Role of GROUP BY in Aggregation**
+
+`GROUP BY` ধারাটি এক বা একাধিক কলামের উপর ভিত্তি করে ডেটাকে গ্রুপে সংগঠিত করে, এবং তারপর আপনি প্রতিটি গ্রুপে আলাদাভাবে **aggregate functions** প্রয়োগ করতে পারেন।
+
+`GROUP BY` ছাড়া, aggregate ফাংশন **entire table** তে কাজ করে। কিন্তু `GROUP BY` তে, তারা **every data** তে কাজ করে।
+
+### **Syntax of GROUP BY**:
+
+```sql
+SELECT column_name, aggregate_function(column_name)
+FROM table_name
+GROUP BY column_name;
+```
+
+### **Example:**
+
+ধরুন আপনার কাছে `sales` নামে একটি টেবিল আছে:
+
+| id | product | amount |
+| -- | ------- | ------ |
+| 1  | Apple   | 100    |
+| 2  | Banana  | 150    |
+| 3  | Apple   | 200    |
+| 4  | Banana  | 100    |
+| 5  | Orange  | 250    |
+
+
+যদি আপনি **প্রতিটি পণ্যের জন্য মোট বিক্রয়ের পরিমাণ** খুঁজে পেতে চান, তাহলে আপনি ব্যবহার করতে পারেন:
+
+```sql
+SELECT product, SUM(amount)
+FROM sales
+GROUP BY product;
+```
+
+**Result:**
+
+| product | sum |
+| ------- | --- |
+| Apple   | 300 |
+| Banana  | 250 |
+| Orange  | 250 |
+
+এখানে, `GROUP BY` ধারাটি পণ্য অনুসারে সারিগুলিকে গোষ্ঠীভুক্ত করে এবং `SUM(amount)` ফাংশন প্রতিটি পণ্য গ্রুপের বিক্রয় যোগ করে।
+
+### **গুরুত্বপূর্ণ নোট:**
+
+* `SELECT` স্টেটমেন্টের প্রতিটি কলাম যা **সমষ্টিগত ফাংশনের** ভিতরে নেই, অবশ্যই `GROUP BY` ধারায় তালিকাভুক্ত করতে হবে।
+* *প্রতিবেদন এবং ডেটা বিশ্লেষণে `GROUP BY` প্রায়শই ডেটার **সারাংশ** পেতে ব্যবহৃত হয়।
+* *সমষ্টিগত মানের উপর ভিত্তি করে গ্রুপ ফিল্টার করতে আপনি `HAVING` সহ `GROUP BY` ব্যবহার করতে পারেন।
+
+### **উপসংহার**
+
+`GROUP BY` ধারাটি এক বা একাধিক কলামে একই মান সম্পন্ন সারিগুলিকে **গ্রুপ** করতে ব্যবহৃত হয় এবং আপনাকে প্রতিটি গ্রুপে **সমষ্টিগত ফাংশন প্রয়োগ** করতে দেয়। এটি **সারাংশ প্রতিবেদন** তৈরিতে সাহায্য করে এবং SQL-এ ডেটা বিশ্লেষণের একটি গুরুত্বপূর্ণ অংশ।
+
+
+
+## 10. How can you calculate aggregate functions like COUNT(), SUM(), and AVG() in PostgreSQL?
+PostgreSQL-এ, **aggregate functions** সারির একটি সেটে গণনা করার জন্য এবং **single result** প্রদান করার জন্য ব্যবহৃত হয়। এই ফাংশনগুলি **তথ্যের সারসংক্ষেপ** করার জন্য খুবই কার্যকর, যেমন মোট, গড়, অথবা রেকর্ডের সংখ্যা খুঁজে বের করা।
+
+সর্বাধিক ব্যবহৃত সমষ্টিগত ফাংশনগুলি হল:
+
+* `COUNT()` – Counts the number of rows.
+* `SUM()` – Calculates the total of numeric values.
+* `AVG()` – Finds the average (mean) of numeric values.
+
+
+### **1. COUNT() – Count the number of rows**
+
+`COUNT()` ফাংশনটি একটি টেবিলে **কতগুলো সারি** আছে তা খুঁজে বের করতে বা একটি শর্তের সাথে মিল করতে ব্যবহৃত হয়।
+
+**উদাহরণ:**
+
+```sql
+SELECT COUNT(*) FROM students;
+```
+
+🔹 মোট শিক্ষার্থীর সংখ্যা ফেরত দেয়।
+
+আপনি এটি একটি শর্ত দিয়েও ব্যবহার করতে পারেন।
+
+```sql
+SELECT COUNT(*) FROM students WHERE age > 18;
+```
+
+🔹 ১৮ বছরের বেশি বয়সী শিক্ষার্থীর সংখ্যা গণনা করে।
+
+### **2. SUM() – Add numeric values**
+
+`SUM()` ফাংশনটি একটি কলামে সমস্ত মান একত্রিত করে।
+
+**উদাহরণ:**
+
+```sql
+SELECT SUM(marks) FROM students;
+```
+
+🔹 `ছাত্রদের` টেবিল থেকে সমস্ত নম্বরের মোট পরিমাণ ফেরত দেয়।
+
+আপনি প্রতিটি গ্রুপের মোট পরিমাণ পেতে `GROUP BY` দিয়েও এটি ব্যবহার করতে পারেন:
+
+```sql
+SELECT class, SUM(marks)
+FROM students
+GROUP BY class;
+```
+
+🔹 প্রতিটি ক্লাসের মোট নম্বর ফেরত দেয়।
+
+### **3. AVG() – Calculate the average value**
+
+
+646 / 5,000
+`AVG()` ফাংশনটি সংখ্যার একটি সেটের **গড়** প্রদান করে।
+
+**উদাহরণ:**
+
+```sql
+SELECT AVG(marks) FROM students;
+```
+🔹 সকল শিক্ষার্থীর গড় নম্বর প্রদান করে।
+
+বিভাগ অনুসারে গড় পেতে আপনি `GROUP BY` ব্যবহার করতে পারেন:
+
+```sql
+SELECT class, AVG(marks)
+FROM students
+GROUP BY class;
+```
+
+🔹 প্রতিটি ক্লাসের জন্য গড় নম্বর প্রদান করে।
+
+### **Conclusion**
+
+In PostgreSQL:
+
+* `COUNT()` is used to count rows,
+* `SUM()` adds up values,
+* `AVG()` finds the average of values.
+
+এই ফাংশনগুলি প্রায়শই `GROUP BY` ধারার সাথে ডেটার অর্থপূর্ণ সারাংশ পেতে ব্যবহৃত হয়, যা ডেটা বিশ্লেষণ এবং প্রতিবেদনের জন্য এগুলিকে অত্যন্ত গুরুত্বপূর্ণ হাতিয়ার করে তোলে।
