@@ -217,7 +217,75 @@ This is commonly used in applications to show data page by page (e.g., 10 studen
 * `OFFSET` is used to **skip rows** before starting to return the result.
   Together, they help in managing large amounts of data efficiently, especially for **pagination** in web applications.
 
+## 7. How can you modify data using UPDATE statements?
+In PostgreSQL, the `UPDATE` statement is used to **change existing data** in a table. It allows you to **modify one or more columns** of one or more rows at a time. This is helpful when you need to correct information or change values based on certain conditions.
 
+### **Basic Syntax**:
+
+```sql
+UPDATE table_name
+SET column1 = value1,
+    column2 = value2,
+    ...
+WHERE condition;
+```
+
+* **`table_name`** – the name of the table where you want to update the data.
+* **`SET`** – lists the columns to be changed and the new values.
+* **`WHERE`** – specifies which rows should be updated. Without a `WHERE` clause, **all rows** in the table will be updated (which can be dangerous if not intended).
+
+### **Example 1: Update a single row**
+
+Suppose you have a `students` table:
+
+```sql
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    age INT
+);
+```
+
+Now, if you want to change the age of the student with `id = 1` to 20:
+
+```sql
+UPDATE students
+SET age = 20
+WHERE id = 1;
+```
+
+Only the student with ID 1 will have their age updated to 20.
+
+### **Example 2: Update multiple columns**
+
+```sql
+UPDATE students
+SET name = 'Alice', age = 22
+WHERE id = 2;
+```
+
+This updates both the name and age of the student with ID 2.
+
+### **Example 3: Update multiple rows**
+
+```sql
+UPDATE students
+SET age = age + 1
+WHERE age < 20;
+```
+
+This query increases the age of all students who are younger than 20 by 1.
+
+### **Important Notes**:
+
+* Always use the `WHERE` clause carefully to avoid updating the wrong rows.
+* You can use subqueries and conditions in the `SET` or `WHERE` clauses.
+* Use transactions (`BEGIN`, `COMMIT`, `ROLLBACK`) for large or critical updates to prevent accidental data loss.
+
+
+### **Conclusion**
+
+The `UPDATE` statement is used to **modify existing records** in a table. By using the `SET` clause to assign new values and the `WHERE` clause to specify which rows to update, you can efficiently and safely change data in a PostgreSQL database.
 
 
 
@@ -447,3 +515,73 @@ LIMIT 5 OFFSET 10;
 * ফলাফল ফেরত দেওয়ার আগে rows এড়িয়ে যেতে `OFFSET` ব্যবহার করা হয়।
 
 একত্রে, তারা প্রচুর পরিমাণে ডেটা দক্ষতার সাথে করতে সাহায্য করে, বিশেষ করে ওয়েব অ্যাপ্লিকেশনগুলিতে **pagination** এর জন্য।
+
+
+## 7. How can you modify data using UPDATE statements?
+PostgreSQL-এ, `UPDATE` স্টেটমেন্টটি একটি টেবিলের **existing data** পরিবর্তন করতে ব্যবহৃত হয়। এটি আপনাকে এক বা একাধিক সারির **এক বা একাধিক কলাম change** করতে দেয়। নির্দিষ্ট শর্তের উপর ভিত্তি করে তথ্য সংশোধন বা মান পরিবর্তন করার সময় এটি সহায়ক।
+
+### **Basic Syntax**:
+
+```sql
+UPDATE table_name
+SET column1 = value1,
+    column2 = value2,
+    ...
+WHERE condition;
+```
+
+* **`table_name`** – the name of the table where you want to update the data.
+* **`SET`** – lists the columns to be changed and the new values.
+* **`WHERE`** – specifies which rows should be updated. Without a `WHERE` clause, **all rows** in the table will be updated (which can be dangerous if not intended).
+
+### **Example 1: Update a single row**
+
+ধরুন আপনার একটি `students` টেবিল আছে:
+
+```sql
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    age INT
+);
+```
+
+এখন, যদি আপনি `id = 1` সহ শিক্ষার্থীর বয়স 20-তে পরিবর্তন করতে চান:
+
+```sql
+UPDATE students
+SET age = 20
+WHERE id = 1;
+```
+
+শুধুমাত্র যাদের আইডি ১ আছে তাদের বয়স ২০ বছর করা হবে।
+
+### **Example 2: Update multiple columns**
+
+```sql
+UPDATE students
+SET name = 'Alice', age = 22
+WHERE id = 2;
+```
+
+এটি আইডি ২ আছে তাদের নাম এবং বয়স উভয়ই আপডেট করে।
+
+### **Example 3: Update multiple rows**
+
+```sql
+UPDATE students
+SET age = age + 1
+WHERE age < 20;
+```
+
+এই কোয়েরিটি ২০ বছরের কম বয়সী সকল শিক্ষার্থীর বয়স ১ করে বৃদ্ধি করে।
+
+### **Important Notes**:
+
+* Always use the `WHERE` clause carefully to avoid updating the wrong rows.
+* You can use subqueries and conditions in the `SET` or `WHERE` clauses.
+* Use transactions (`BEGIN`, `COMMIT`, `ROLLBACK`) for large or critical updates to prevent accidental data loss.
+
+
+### **উপসংহার**
+`UPDATE` স্টেটমেন্টটি একটি টেবিলে **বিদ্যমান রেকর্ড পরিবর্তন** করতে ব্যবহৃত হয়। নতুন মান নির্ধারণের জন্য `SET` ধারা এবং কোন সারি আপডেট করতে হবে তা নির্দিষ্ট করার জন্য `WHERE` ধারা ব্যবহার করে, আপনি একটি PostgreSQL ডাটাবেসে দক্ষতার সাথে এবং নিরাপদে ডেটা পরিবর্তন করতে পারেন।
